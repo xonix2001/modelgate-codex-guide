@@ -8,15 +8,6 @@
 
 ![ModelGate 控制台与 CC Switch 接入展示](site/assets/create-key-public.png)
 
-## 你可以用它做什么
-
-| 清晰的接入路径 | CC Switch 快速导入 | 中文图文教程 |
-| --- | --- | --- |
-| 账号、额度、密钥集中管理 | 从控制台导入并启用配置 | 每一步都有脱敏截图可核对 |
-| [进入 API 控制台](https://api.modelgate.website) | [下载 CC Switch](https://github.com/farion1231/cc-switch/releases) | [查看完整教程](docs/connection-guide.md) |
-
-
-
 ## 三步开始
 
 1. 打开 [ModelGate API 控制台](https://api.modelgate.website)，注册并登录；需要额度时前往 [兑换码商店](https://shop.modelgate.website)。
