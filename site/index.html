@@ -3,278 +3,79 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="第三方服务注册、额度兑换、API 密钥创建与 Codex 接入操作说明。">
-  <meta name="theme-color" content="#0f172a">
-  <title>第三方服务接入说明</title>
+  <meta name="description" content="ModelGate / Sub2API：通过 CC Switch 快速接入 Codex，包含产品展示、匿名调用动态与完整中文教程。">
+  <meta name="theme-color" content="#070b14">
+  <title>ModelGate · 让 Codex 接入更简单</title>
   <style>
-    :root {
-      color-scheme: light;
-      --ink: #182230;
-      --muted: #667085;
-      --line: #e4e7ec;
-      --paper: #ffffff;
-      --wash: #f5f7fa;
-      --navy: #0f172a;
-      --blue: #2563eb;
-      --blue-soft: #eff6ff;
-      --amber: #b54708;
-      --amber-soft: #fffaeb;
-      --shadow: 0 20px 60px rgba(15, 23, 42, .08);
-    }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      color: var(--ink);
-      background:
-        radial-gradient(circle at 10% 0%, rgba(37, 99, 235, .10), transparent 30rem),
-        var(--wash);
-      font-family: "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, sans-serif;
-      line-height: 1.75;
-    }
-
-    a { color: inherit; }
-    img { display: block; max-width: 100%; }
-
-    .hero {
-      color: #fff;
-      background: var(--navy);
-      padding: 72px 24px 118px;
-      overflow: hidden;
-      position: relative;
-    }
-    .hero::after {
-      content: "";
-      position: absolute;
-      width: 430px;
-      height: 430px;
-      right: -120px;
-      top: -220px;
-      border: 1px solid rgba(255, 255, 255, .13);
-      border-radius: 50%;
-      box-shadow: 0 0 0 70px rgba(255, 255, 255, .035), 0 0 0 140px rgba(255, 255, 255, .025);
-    }
-    .hero-inner, .layout { width: min(1100px, 100%); margin: 0 auto; }
-    .eyebrow {
-      margin: 0 0 14px;
-      color: #93c5fd;
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-    }
-    h1 { margin: 0; font-size: clamp(36px, 6vw, 64px); line-height: 1.1; letter-spacing: -.04em; }
-    .lead { max-width: 650px; margin: 20px 0 0; color: #cbd5e1; font-size: 18px; }
-
-    .layout {
-      display: grid;
-      grid-template-columns: 210px minmax(0, 1fr);
-      gap: 38px;
-      align-items: start;
-      padding: 0 24px 80px;
-      margin-top: -70px;
-      position: relative;
-    }
-    .toc {
-      position: sticky;
-      top: 24px;
-      padding: 22px;
-      border: 1px solid rgba(255, 255, 255, .7);
-      border-radius: 18px;
-      background: rgba(255, 255, 255, .92);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(14px);
-    }
-    .toc strong { display: block; margin-bottom: 12px; font-size: 14px; }
-    .toc a {
-      display: block;
-      padding: 7px 0;
-      color: var(--muted);
-      font-size: 14px;
-      text-decoration: none;
-    }
-    .toc a:hover { color: var(--blue); }
-
-    main {
-      padding: clamp(28px, 5vw, 56px);
-      border: 1px solid rgba(255, 255, 255, .7);
-      border-radius: 24px;
-      background: var(--paper);
-      box-shadow: var(--shadow);
-    }
-    section { scroll-margin-top: 28px; }
-    section + section { margin-top: 64px; padding-top: 58px; border-top: 1px solid var(--line); }
-    h2 { margin: 0 0 22px; font-size: clamp(26px, 4vw, 34px); line-height: 1.25; letter-spacing: -.025em; }
-    h3 { margin: 36px 0 14px; font-size: 21px; }
-    p { margin: 12px 0; }
-
-    .notice {
-      padding: 18px 20px;
-      border: 1px solid #fedf89;
-      border-left: 4px solid #f79009;
-      border-radius: 12px;
-      color: #7a2e0e;
-      background: var(--amber-soft);
-    }
-    .notice strong { color: var(--amber); }
-
-    .links {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 24px;
-    }
-    .link-card {
-      min-height: 108px;
-      padding: 18px 20px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      text-decoration: none;
-      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
-    }
-    .link-card:hover { transform: translateY(-2px); border-color: #93c5fd; box-shadow: 0 10px 28px rgba(37, 99, 235, .10); }
-    .link-card small { display: block; color: var(--muted); }
-    .link-card b { display: block; margin-top: 8px; color: var(--blue); font-size: 17px; word-break: break-all; }
-    .link-card.contact { grid-column: 1 / -1; min-height: auto; background: var(--blue-soft); }
-
-    .steps { counter-reset: item; margin-top: 24px; }
-    .step { position: relative; padding-left: 48px; }
-    .step + .step { margin-top: 44px; }
-    .step::before {
-      counter-increment: item;
-      content: counter(item);
-      position: absolute;
-      left: 0;
-      top: 1px;
-      display: grid;
-      width: 32px;
-      height: 32px;
-      place-items: center;
-      border-radius: 50%;
-      color: #fff;
-      background: var(--blue);
-      font-size: 14px;
-      font-weight: 800;
-    }
-    .step h3 { margin-top: 0; }
-    .download-list { display: grid; gap: 10px; margin: 18px 0 0; padding: 0; list-style: none; }
-    .download-list a {
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 13px 16px;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      text-decoration: none;
-    }
-    .download-list a:hover { border-color: #93c5fd; background: var(--blue-soft); }
-    .download-list span { color: var(--muted); font-size: 14px; }
-
-    figure { margin: 22px 0 0; }
-    figure img { width: 100%; border: 1px solid var(--line); border-radius: 14px; background: #f8fafc; }
-    figcaption { margin-top: 8px; color: var(--muted); font-size: 13px; text-align: center; }
-    .tip { margin-top: 22px; padding: 16px 18px; border-radius: 12px; background: var(--blue-soft); }
-
-    footer { padding: 30px 24px 48px; color: var(--muted); font-size: 13px; text-align: center; }
-
-    @media (max-width: 760px) {
-      .hero { padding: 52px 20px 98px; }
-      .lead { font-size: 16px; }
-      .layout { display: block; padding: 0 14px 48px; }
-      .toc { display: none; }
-      main { padding: 28px 20px; border-radius: 18px; }
-      section + section { margin-top: 48px; padding-top: 42px; }
-      .links { grid-template-columns: 1fr; }
-      .link-card.contact { grid-column: auto; }
-      .step { padding-left: 43px; }
-      .download-list a { display: block; }
-      .download-list span { display: block; margin-top: 4px; }
-    }
+    :root { color-scheme: dark; --bg:#070b14; --surface:#0d1422; --surface2:#111b2d; --ink:#f8fafc; --muted:#94a3b8; --line:rgba(148,163,184,.18); --blue:#4f8cff; --cyan:#22d3ee; --green:#34d399; --amber:#fbbf24; --shadow:0 28px 80px rgba(0,0,0,.34); }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; color:var(--ink); background:radial-gradient(circle at 15% -5%,rgba(79,140,255,.2),transparent 30rem),radial-gradient(circle at 92% 12%,rgba(34,211,238,.1),transparent 28rem),var(--bg); font:16px/1.7 "PingFang SC","Microsoft YaHei",system-ui,-apple-system,sans-serif; }
+    a { color:inherit; } img { display:block; max-width:100%; } .wrap { width:min(1160px,calc(100% - 40px)); margin:0 auto; }
+    .nav { position:sticky; top:0; z-index:20; border-bottom:1px solid var(--line); background:rgba(7,11,20,.78); backdrop-filter:blur(18px); }
+    .nav-inner { min-height:68px; display:flex; align-items:center; justify-content:space-between; gap:24px; }
+    .brand { display:flex; align-items:center; gap:11px; font-weight:800; text-decoration:none; letter-spacing:-.02em; }
+    .brand-mark { width:30px; height:30px; border-radius:9px; background:linear-gradient(135deg,var(--blue),var(--cyan)); box-shadow:0 0 32px rgba(79,140,255,.42); }
+    .nav-links { display:flex; align-items:center; gap:22px; color:#cbd5e1; font-size:14px; } .nav-links a { text-decoration:none; } .nav-links a:hover { color:#fff; }
+    .hero { padding:92px 0 72px; overflow:hidden; } .hero-grid { display:grid; grid-template-columns:1.04fr .96fr; gap:70px; align-items:center; }
+    .eyebrow { display:inline-flex; align-items:center; gap:9px; margin:0 0 20px; color:#a5c5ff; font-size:13px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; }
+    .eyebrow::before { content:""; width:26px; height:1px; background:var(--blue); }
+    h1 { margin:0; max-width:680px; font-size:clamp(42px,6.4vw,76px); line-height:1.06; letter-spacing:-.055em; }
+    .gradient { color:transparent; background:linear-gradient(100deg,#8db4ff,#5ee7f2); background-clip:text; -webkit-background-clip:text; }
+    .lead { max-width:640px; margin:24px 0 0; color:#b8c4d6; font-size:18px; }
+    .actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:34px; }
+    .button { display:inline-flex; min-height:48px; align-items:center; justify-content:center; padding:0 20px; border:1px solid var(--line); border-radius:12px; color:#e2e8f0; text-decoration:none; font-weight:750; transition:transform .18s ease,border-color .18s ease; }
+    .button:hover { transform:translateY(-2px); border-color:rgba(141,180,255,.65); }
+    .button.primary { border-color:transparent; color:#04101c; background:linear-gradient(110deg,#82afff,#55dbe9); box-shadow:0 14px 40px rgba(79,140,255,.24); }
+    .support { display:flex; flex-wrap:wrap; gap:18px; margin-top:26px; color:var(--muted); font-size:14px; } .support span::before { content:"✓"; margin-right:7px; color:var(--green); }
+    .console { position:relative; border:1px solid rgba(141,180,255,.24); border-radius:22px; background:linear-gradient(180deg,rgba(17,27,45,.96),rgba(10,17,29,.96)); box-shadow:var(--shadow); overflow:hidden; }
+    .console::before { content:""; position:absolute; inset:0; pointer-events:none; background:linear-gradient(115deg,rgba(79,140,255,.1),transparent 44%); }
+    .console-head { position:relative; display:flex; align-items:center; justify-content:space-between; gap:12px; padding:17px 19px; border-bottom:1px solid var(--line); }
+    .console-title { display:flex; align-items:center; gap:9px; font-weight:750; } .pulse { width:9px; height:9px; border-radius:50%; background:var(--green); box-shadow:0 0 0 5px rgba(52,211,153,.1); animation:pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 50% { box-shadow:0 0 0 9px rgba(52,211,153,0); } }
+    .demo-badge { padding:4px 8px; border:1px solid rgba(251,191,36,.26); border-radius:999px; color:#fcd34d; background:rgba(251,191,36,.07); font-size:12px; }
+    .activity { position:relative; padding:8px 18px 16px; } .activity-row { display:grid; grid-template-columns:72px 1fr auto; gap:12px; align-items:center; padding:16px 2px; border-bottom:1px solid var(--line); } .activity-row:last-of-type { border-bottom:0; }
+    .time { color:var(--muted); font-size:13px; } .event strong { display:block; font-size:14px; } .event small { display:block; color:var(--muted); font-size:12px; } .status { color:var(--green); font:700 12px ui-monospace,SFMono-Regular,Consolas,monospace; }
+    .console-note { margin:4px 0 0; padding:12px 14px; border-radius:10px; color:var(--muted); background:rgba(148,163,184,.06); font-size:12px; }
+    section { padding:82px 0; scroll-margin-top:66px; } .section-label { margin:0 0 10px; color:#8db4ff; font-size:13px; font-weight:800; letter-spacing:.13em; text-transform:uppercase; }
+    h2 { margin:0; font-size:clamp(30px,4.3vw,48px); line-height:1.18; letter-spacing:-.035em; } .section-lead { max-width:700px; margin:16px 0 0; color:var(--muted); font-size:17px; }
+    .cards { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:34px; } .card { padding:26px; border:1px solid var(--line); border-radius:18px; background:rgba(17,27,45,.66); }
+    .card-index { color:var(--cyan); font:800 13px ui-monospace,SFMono-Regular,Consolas,monospace; } .card h3 { margin:24px 0 8px; font-size:21px; } .card p { margin:0; color:var(--muted); }
+    .flow { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:34px; } .flow-item { position:relative; min-height:144px; padding:22px; border:1px solid var(--line); border-radius:16px; background:var(--surface); }
+    .flow-item:not(:last-child)::after { content:"→"; position:absolute; right:-19px; top:50%; z-index:2; width:26px; color:var(--blue); text-align:center; transform:translateY(-50%); }
+    .flow-item b { display:block; margin-bottom:8px; font-size:18px; } .flow-item span { color:var(--muted); font-size:14px; }
+    .showcase { display:grid; grid-template-columns:.78fr 1.22fr; gap:42px; align-items:center; } .showcase-frame { padding:10px; border:1px solid var(--line); border-radius:20px; background:var(--surface2); box-shadow:var(--shadow); }
+    .showcase-frame img { width:100%; border-radius:13px; } .facts { display:grid; gap:12px; margin:28px 0 0; padding:0; list-style:none; } .facts li { padding:13px 15px; border-left:2px solid var(--blue); color:#cbd5e1; background:rgba(79,140,255,.06); }
+    .tutorial-shell { padding:clamp(24px,5vw,54px); border:1px solid var(--line); border-radius:24px; background:var(--surface); } .steps { counter-reset:step; margin-top:38px; }
+    .step { position:relative; padding-left:54px; } .step + .step { margin-top:54px; padding-top:50px; border-top:1px solid var(--line); }
+    .step::before { counter-increment:step; content:counter(step); position:absolute; left:0; top:1px; display:grid; width:34px; height:34px; place-items:center; border-radius:10px; color:#07111f; background:linear-gradient(135deg,#8db4ff,#5ee7f2); font-size:14px; font-weight:900; }
+    .step h3 { margin:0 0 9px; font-size:22px; } .step p { margin:0; color:#b8c4d6; } figure { margin:22px 0 0; } figure img { width:100%; border:1px solid var(--line); border-radius:15px; background:#0b1220; } figcaption { margin-top:9px; color:var(--muted); font-size:13px; text-align:center; }
+    .tip { margin-top:18px; padding:15px 17px; border:1px solid rgba(251,191,36,.2); border-radius:11px; color:#fde68a; background:rgba(251,191,36,.06); }
+    .download-links { display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; } .download-links a { padding:9px 13px; border:1px solid var(--line); border-radius:9px; color:#cbd5e1; text-decoration:none; font-size:14px; }
+    .cta { padding:36px; border:1px solid rgba(79,140,255,.3); border-radius:22px; text-align:center; background:linear-gradient(125deg,rgba(79,140,255,.16),rgba(34,211,238,.08)); } .cta p { margin:12px auto 0; max-width:620px; color:#b8c4d6; } .cta .actions { justify-content:center; }
+    footer { padding:28px 0 46px; border-top:1px solid var(--line); color:var(--muted); font-size:13px; } .footer-inner { display:flex; justify-content:space-between; gap:20px; }
+    @media (max-width:900px) { .hero-grid,.showcase { grid-template-columns:1fr; } .hero { padding-top:68px; } .console { max-width:620px; } .cards { grid-template-columns:1fr; } .flow { grid-template-columns:repeat(2,1fr); } .flow-item:nth-child(2)::after { display:none; } }
+    @media (max-width:620px) { .wrap { width:min(100% - 28px,1160px); } .nav-links a:not(.nav-cta) { display:none; } .hero { padding:56px 0 36px; } h1 { font-size:clamp(40px,14vw,58px); } .lead { font-size:16px; } .actions .button { width:100%; } section { padding:60px 0; } .activity-row { grid-template-columns:58px 1fr auto; gap:8px; } .flow { grid-template-columns:1fr; } .flow-item:not(:last-child)::after { content:"↓"; top:auto; right:50%; bottom:-22px; transform:translateX(50%); } .flow-item:nth-child(2)::after { display:block; } .tutorial-shell { padding:24px 18px; } .step { padding-left:45px; } .footer-inner { display:block; } }
+    @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } .pulse { animation:none; } .button { transition:none; } }
   </style>
 </head>
 <body>
-  <header class="hero">
-    <div class="hero-inner">
-      <p class="eyebrow">Setup Guide</p>
-      <h1>第三方服务接入说明</h1>
-      <p class="lead">从环境准备、额度兑换到 API 密钥启用，按步骤完成 Codex 接入。</p>
-    </div>
-  </header>
-
-  <div class="layout">
-    <nav class="toc" aria-label="页面目录">
-      <strong>内容目录</strong>
-      <a href="#before">使用前说明</a>
-      <a href="#environment">准备环境</a>
-      <a href="#operation">接入操作</a>
-    </nav>
-
-    <main>
-      <section id="before">
-        <h2>一、使用前说明</h2>
-        <div class="notice"><strong>安全提醒：</strong>在接入任何第三方服务前，请先确认相关服务的使用符合所在团队的安全要求、公司制度以及对应平台的服务条款。涉及账号、密钥和数据的操作，请由授权人员在授权设备上完成。</div>
-        <div class="links">
-          <a class="link-card" href="https://api.modelgate.website" target="_blank" rel="noopener noreferrer">
-            <small>API 注册网址</small><b>api.modelgate.website</b>
-          </a>
-          <a class="link-card" href="https://shop.modelgate.website" target="_blank" rel="noopener noreferrer">
-            <small>兑换码购买网址</small><b>shop.modelgate.website</b>
-          </a>
-          <div class="link-card contact"><small>客服 QQ 群</small><b>176498720</b></div>
-        </div>
-      </section>
-
-      <section id="environment">
-        <h2>二、准备环境：Codex + CC Switch</h2>
-        <div class="steps">
-          <div class="step">
-            <h3>安装 Codex</h3>
-            <ul class="download-list">
-              <li><a href="https://chatgpt.com/download/" target="_blank" rel="noopener noreferrer"><b>官方下载</b><span>chatgpt.com</span></a></li>
-              <li><a href="https://codexapp.agentsmirror.com/" target="_blank" rel="noopener noreferrer"><b>Codex 镜像</b><span>agentsmirror.com</span></a></li>
-            </ul>
-          </div>
-          <div class="step">
-            <h3>安装 CC Switch</h3>
-            <p>根据你的电脑系统下载安装包，下载完成后按提示安装。</p>
-            <ul class="download-list">
-              <li><a href="https://github.com/farion1231/cc-switch/releases" target="_blank" rel="noopener noreferrer"><b>macOS 安装包</b><span>从 Releases 获取当前版本</span></a></li>
-              <li><a href="https://github.com/farion1231/cc-switch/releases" target="_blank" rel="noopener noreferrer"><b>Windows 安装包</b><span>从 Releases 获取当前版本</span></a></li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section id="operation">
-        <h2>三、接入操作</h2>
-        <div class="steps">
-          <div class="step">
-            <h3>兑换额度</h3>
-            <p>注册并登录 Sub2API 后，点击左侧菜单中的“兑换”，输入购买的兑换码完成兑换。</p>
-            <figure><img src="assets/redeem-public.png" alt="Sub2API 兑换额度页面（示例信息）" loading="lazy"><figcaption>在兑换页面输入兑换码（图中信息已脱敏）</figcaption></figure>
-          </div>
-          <div class="step">
-            <h3>创建并导入 API 密钥</h3>
-            <p>创建密钥，选择对应的号池，然后点击“导入到 CCS”。</p>
-            <figure><img src="assets/create-key-public.png" alt="创建 API 密钥并导入到 CCS（示例信息）" loading="lazy"><figcaption>创建密钥并选择号池（图中信息已脱敏）</figcaption></figure>
-          </div>
-          <div class="step">
-            <h3>使用密钥</h3>
-            <p>密钥创建完成后，点击“使用密钥”，进入配置页面。</p>
-            <figure><img src="assets/use-key-public.png" alt="使用 API 密钥页面（示例信息）" loading="lazy"><figcaption>点击“使用密钥”进入下一步（图中信息已脱敏）</figcaption></figure>
-          </div>
-          <div class="step">
-            <h3>启用配置并重启 Codex</h3>
-            <p>进入 CC Switch 页面后点击“启用”。随后请彻底退出 Codex：Windows 用户通过任务管理器退出，macOS 用户在菜单栏右击并彻底退出。重新打开 Codex 后即可使用。</p>
-            <figure><img src="assets/enable-public.png" alt="在 CC Switch 中启用配置（示例信息）" loading="lazy"><figcaption>点击“启用”完成配置（图中信息已脱敏）</figcaption></figure>
-            <div class="tip"><strong>最后一步：</strong>仅关闭窗口可能不会结束 Codex 进程，请确认它已彻底退出后再重新打开。</div>
-          </div>
-        </div>
-      </section>
-    </main>
-  </div>
-
-  <footer>第三方服务接入说明</footer>
+  <nav class="nav" aria-label="主导航"><div class="wrap nav-inner"><a class="brand" href="#top"><span class="brand-mark" aria-hidden="true"></span>ModelGate</a><div class="nav-links"><a href="#activity">运行展示</a><a href="#how">接入流程</a><a href="#tutorial">完整教程</a><a class="nav-cta" href="https://api.modelgate.website" target="_blank" rel="noopener noreferrer">进入控制台 ↗</a></div></div></nav>
+  <header class="hero" id="top"><div class="wrap hero-grid"><div><p class="eyebrow">ModelGate × Codex</p><h1>让 Codex 接入，<span class="gradient">更简单一点。</span></h1><p class="lead">把注册、额度、API 密钥和客户端配置串成一条清晰路径。通过 CC Switch 导入并启用，不需要手工翻找配置文件。</p><div class="actions"><a class="button primary" href="https://api.modelgate.website" target="_blank" rel="noopener noreferrer">立即进入 API 控制台</a><a class="button" href="#tutorial">查看接入教程</a></div><div class="support"><span>Codex</span><span>CC Switch</span><span>Windows / macOS</span></div></div>
+    <aside class="console" id="activity" aria-label="匿名调用动态演示"><div class="console-head"><div class="console-title"><span class="pulse" aria-hidden="true"></span>匿名调用动态</div><span class="demo-badge">脱敏演示</span></div><div class="activity"><div class="activity-row"><span class="time">刚刚</span><span class="event"><strong>Codex 请求</strong><small>请求内容已隐藏</small></span><span class="status">完成</span></div><div class="activity-row"><span class="time">18 秒前</span><span class="event"><strong>配置加载</strong><small>ModelGate via CC Switch</small></span><span class="status">就绪</span></div><div class="activity-row"><span class="time">1 分钟前</span><span class="event"><strong>API 请求</strong><small>身份信息已匿名化</small></span><span class="status">完成</span></div><p class="console-note">这是界面效果演示，不是实时统计。公开页面不展示用户名、密钥、请求正文或消费金额。</p></div></aside>
+  </div></header>
+  <main>
+    <section><div class="wrap"><p class="section-label">Why ModelGate</p><h2>从拿到额度，到真正开始调用</h2><p class="section-lead">不只是给你一个地址，而是把 Codex 接入过程中最容易卡住的环节放进同一条操作链路。</p><div class="cards"><article class="card"><span class="card-index">01 / 管理</span><h3>账号、额度、密钥</h3><p>在控制台完成兑换与密钥创建，让每一步都有明确入口。</p></article><article class="card"><span class="card-index">02 / 导入</span><h3>快速导入 CC Switch</h3><p>从控制台进入配置流程，减少手工编辑本地文件带来的出错概率。</p></article><article class="card"><span class="card-index">03 / 上手</span><h3>中文图文说明</h3><p>真实界面截图经过脱敏处理，照着步骤即可完成接入。</p></article></div></div></section>
+    <section id="how"><div class="wrap"><p class="section-label">How it works</p><h2>一次请求，经过这些环节</h2><div class="flow" aria-label="调用流程"><div class="flow-item"><b>在 Codex 发起请求</b><span>保持熟悉的工作方式</span></div><div class="flow-item"><b>CC Switch 加载配置</b><span>启用导入的 ModelGate 项</span></div><div class="flow-item"><b>连接 ModelGate API</b><span>请求发往配置的 Base URL</span></div><div class="flow-item"><b>结果返回 Codex</b><span>继续当前任务</span></div></div></div></section>
+    <section><div class="wrap showcase"><div><p class="section-label">Control Center</p><h2>你看到的，就是实际操作界面</h2><p class="section-lead">展示使用过程，而不暴露使用者。公开截图中的账号、余额、兑换码与密钥均已替换为无效示例。</p><ul class="facts"><li>创建 API 密钥并选择对应号池</li><li>从控制台进入 CC Switch 配置</li><li>敏感信息不进入公开仓库</li></ul></div><figure class="showcase-frame"><img src="assets/create-key-public.png" alt="ModelGate API 密钥控制台的脱敏界面" loading="lazy"><figcaption>ModelGate 控制台 · 公开脱敏画面</figcaption></figure></div></section>
+    <section id="tutorial"><div class="wrap tutorial-shell"><p class="section-label">Full Guide</p><h2>从零完成 Codex 接入</h2><p class="section-lead">教程完整保留。按顺序操作，最后务必彻底退出并重新打开 Codex。</p><div class="download-links"><a href="https://chatgpt.com/download/" target="_blank" rel="noopener noreferrer">下载 Codex ↗</a><a href="https://github.com/farion1231/cc-switch/releases" target="_blank" rel="noopener noreferrer">下载 CC Switch ↗</a><a href="https://shop.modelgate.website" target="_blank" rel="noopener noreferrer">购买兑换码 ↗</a></div><div class="steps">
+      <article class="step"><h3>兑换额度</h3><p>注册并登录后，打开“兑换”页面，输入购买的兑换码完成兑换。</p><figure><img src="assets/redeem-public.png" alt="Sub2API 兑换额度页面（示例信息）" loading="lazy"><figcaption>兑换页面 · 图中信息已脱敏</figcaption></figure></article>
+      <article class="step"><h3>创建并导入 API 密钥</h3><p>创建密钥，选择对应号池，然后点击“导入到 CCS”。</p><figure><img src="assets/create-key-public.png" alt="创建 API 密钥并导入到 CCS（示例信息）" loading="lazy"><figcaption>密钥创建页面 · 图中信息已脱敏</figcaption></figure></article>
+      <article class="step"><h3>使用密钥</h3><p>密钥创建完成后，点击“使用密钥”，进入客户端配置页面。</p><figure><img src="assets/use-key-public.png" alt="使用 API 密钥页面（示例信息）" loading="lazy"><figcaption>使用密钥页面 · 图中信息已脱敏</figcaption></figure></article>
+      <article class="step"><h3>启用配置并重启 Codex</h3><p>在 CC Switch 页面点击“启用”，随后彻底退出并重新打开 Codex。</p><figure><img src="assets/enable-public.png" alt="在 CC Switch 中启用配置（示例信息）" loading="lazy"><figcaption>CC Switch 配置页面 · 图中信息已脱敏</figcaption></figure><div class="tip"><strong>关键一步：</strong>仅关闭窗口可能不会结束进程。Windows 请在任务管理器中确认退出；macOS 请从菜单栏彻底退出。</div></article>
+    </div></div></section>
+    <section><div class="wrap cta"><h2>准备好开始了吗？</h2><p>进入控制台注册账号，或先查看兑换码选项。实际调用可能产生费用，请在使用前核对当前计费与服务条款。</p><div class="actions"><a class="button primary" href="https://api.modelgate.website" target="_blank" rel="noopener noreferrer">进入 API 控制台</a><a class="button" href="https://shop.modelgate.website" target="_blank" rel="noopener noreferrer">前往兑换码商店</a></div></div></section>
+  </main>
+  <footer><div class="wrap footer-inner"><span>ModelGate / Sub2API 接入展示</span><span>非 OpenAI、Codex 或 CC Switch 官方项目 · 请妥善保管 API 密钥</span></div></footer>
 </body>
 </html>
