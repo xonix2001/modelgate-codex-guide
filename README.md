@@ -1,4 +1,4 @@
-# ModelGate：让 Codex 接入更简单
+# 小黄AI中转站
 
 > 从账号、额度、API 密钥到 CC Switch，一条清晰路径完成 Codex 接入。
 
@@ -6,7 +6,7 @@
 [![购买兑换码](https://img.shields.io/badge/兑换码-前往购买-111827?style=for-the-badge)](https://shop.modelgate.website)
 [![接入方式](https://img.shields.io/badge/Codex-CC%20Switch-22C55E?style=for-the-badge)](docs/connection-guide.md)
 
-ModelGate / Sub2API 面向希望在 Codex 中使用第三方 API 服务的中文用户。注册、兑换额度、创建密钥，再通过 CC Switch 导入配置，不需要手工翻找配置文件。
+注册、兑换额度、创建密钥，再通过 CC Switch 导入配置。
 
 ![ModelGate 控制台与 CC Switch 接入展示](site/assets/create-key-public.png)
 
@@ -17,27 +17,7 @@ ModelGate / Sub2API 面向希望在 Codex 中使用第三方 API 服务的中文
 | 账号、额度、密钥集中管理 | 从控制台导入并启用配置 | 每一步都有脱敏截图可核对 |
 | [进入 API 控制台](https://api.modelgate.website) | [下载 CC Switch](https://github.com/farion1231/cc-switch/releases) | [查看完整教程](docs/connection-guide.md) |
 
-## 调用是怎样发生的
 
-```text
-你在 Codex 中发起请求
-          ↓
-CC Switch 加载 ModelGate 配置
-          ↓
-请求发送到 api.modelgate.website
-          ↓
-结果返回 Codex
-```
-
-### 匿名调用动态（脱敏演示）
-
-```text
-刚刚      Codex 请求        ● 已完成
-18 秒前   配置加载          ● 就绪
-1 分钟前  API 请求          ● 已完成
-```
-
-上方记录用于展示服务运行时的体验，不代表实时统计，也不包含用户名、密钥、请求正文或消费金额。若后续接入可公开的匿名聚合接口，可替换为真实的调用量与成功率数据。
 
 ## 三步开始
 
@@ -79,11 +59,5 @@ CC Switch 加载 ModelGate 配置
 
 本仓库展示并记录 ModelGate / Sub2API 的接入方式，不包含 API 中转后端源码，也不是 OpenAI、Codex 或 CC Switch 的官方项目。其他客户端、模型与原始 HTTP 路径请以控制台当前文档为准。
 
-## 安全说明
-
-- 不要在 Issue、截图、日志或提交中公开 API 密钥、兑换码、账号信息和完整请求记录。
-- 第三方服务会处理发送的请求；使用前请确认隐私政策、服务条款和团队合规要求。
-- 本仓库截图均已脱敏；界面可能随服务更新而变化。
-- 购买、兑换和实际调用可能产生费用，请自行核对计费与退款规则。
 
 更多说明见 [SECURITY.md](SECURITY.md)。文档采用 [MIT License](LICENSE)，第三方名称、商标和界面归各自权利人所有。
