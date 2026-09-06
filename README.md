@@ -6,7 +6,7 @@
 
 注册、兑换额度、创建密钥，再通过 CC Switch 导入配置。
 
-![ModelGate 控制台与 CC Switch 接入展示](site/assets/create-key-public.png)
+<img width="1974" height="1043" alt="image" src="https://github.com/user-attachments/assets/c49ba1b4-4d06-438a-b7d0-5027727ddfbe" />
 
 ## 三步开始
 
