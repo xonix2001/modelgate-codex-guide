@@ -1,4 +1,4 @@
-# 小黄AI中转站
+# 小黄AI中转站——提供专业GPT中转服务
 
 [![服务入口](https://img.shields.io/badge/ModelGate-进入控制台-2563EB?style=for-the-badge)](https://api.modelgate.website)
 [![购买兑换码](https://img.shields.io/badge/兑换码-前往购买-111827?style=for-the-badge)](https://shop.modelgate.website)
