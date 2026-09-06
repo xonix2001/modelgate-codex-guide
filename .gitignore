@@ -1,0 +1,33 @@
+# Local agent state
+.agents/
+.codex/
+
+# Operating-system and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+.tools/
+
+# Runtime secrets and local overrides
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials*.json
+secrets*.json
+
+# Original screenshots contain account-specific information. Only the
+# redacted *-public.png files are suitable for the public repository.
+site/assets/create-key.png
+site/assets/enable.png
+site/assets/redeem.png
+site/assets/use-key.png
+site/图片和附件/
+site/第三方服务接入说明.md
+
+# Server-specific deployment configuration is retained locally only.
+site/Caddyfile.deploy
