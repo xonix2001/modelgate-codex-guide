@@ -1,7 +1,5 @@
 # 小黄AI中转站
 
-> 从账号、额度、API 密钥到 CC Switch，一条清晰路径完成 Codex 接入。
-
 [![服务入口](https://img.shields.io/badge/ModelGate-进入控制台-2563EB?style=for-the-badge)](https://api.modelgate.website)
 [![购买兑换码](https://img.shields.io/badge/兑换码-前往购买-111827?style=for-the-badge)](https://shop.modelgate.website)
 [![接入方式](https://img.shields.io/badge/Codex-CC%20Switch-22C55E?style=for-the-badge)](docs/connection-guide.md)
@@ -48,16 +46,6 @@
 
 </details>
 
-## 已验证范围
-
-| 项目 | 当前说明 |
-| --- | --- |
-| API 控制台 / Base URL | `https://api.modelgate.website` |
-| 兑换码购买 | `https://shop.modelgate.website` |
-| 已验证客户端流程 | CC Switch → Codex |
-| 平台 | Windows、macOS（以客户端实际支持范围为准） |
-
-本仓库展示并记录 ModelGate / Sub2API 的接入方式，不包含 API 中转后端源码，也不是 OpenAI、Codex 或 CC Switch 的官方项目。其他客户端、模型与原始 HTTP 路径请以控制台当前文档为准。
 
 
-更多说明见 [SECURITY.md](SECURITY.md)。文档采用 [MIT License](LICENSE)，第三方名称、商标和界面归各自权利人所有。
+
