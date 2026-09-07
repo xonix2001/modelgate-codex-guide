@@ -5,7 +5,9 @@
 [![接入方式](https://img.shields.io/badge/Codex-CC%20Switch-22C55E?style=for-the-badge)](docs/connection-guide.md)
 
 注册、兑换额度、创建密钥，再通过 CC Switch 导入配置。
-
+价格说明
+实际扣费按官方 API 基准价 × 0.4 计算。
+下方“实付价格”按人民币参考值展示，单位为 ¥ / 100 万 Token；“官方价格”保留官方美元参考价，单位为 $ / 1M Token。综合汇率后，实际收费约相当于官方 App 价格的 0.06 倍。
 <img width="1974" height="1043" alt="image" src="https://github.com/user-attachments/assets/c49ba1b4-4d06-438a-b7d0-5027727ddfbe" />
 
 ## 三步开始
